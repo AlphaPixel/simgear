@@ -54,6 +54,7 @@ private:
     simgear::Socket* client;
     unsigned short port;
     bool is_tcp;
+    bool is_broadcast;
     bool is_server;
     bool first_read;
     int timeout;

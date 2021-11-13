@@ -45,6 +45,7 @@ SGSocket::SGSocket( const string& host, const string& port_,
     save_len(0),
     client(0),
     is_tcp(false),
+    is_broadcast(false),
     is_server(false),
     first_read(false),
     timeout(0)
@@ -58,6 +59,10 @@ SGSocket::SGSocket( const string& host, const string& port_,
     if ( style == "tcp" )
     {
 	is_tcp = true;
+    }
+    else if ( style == "broadcast") 
+    {
+    is_broadcast = true;
     }
     else if ( style != "udp" )
     {
@@ -78,6 +83,7 @@ SGSocket::~SGSocket()
 bool
 SGSocket::make_server_socket()
 {
+    sock.setBroadcast(is_broadcast);
     if (!sock.open( is_tcp ))
     {
         SG_LOG( SG_IO, SG_ALERT, 
@@ -100,6 +106,8 @@ SGSocket::make_server_socket()
 bool
 SGSocket::make_client_socket()
 {
+    sock.setBroadcast(is_broadcast);
+
     if (!sock.open( is_tcp ))
     {
         SG_LOG( SG_IO, SG_ALERT, 
