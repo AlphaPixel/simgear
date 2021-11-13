@@ -83,13 +83,14 @@ SGSocket::~SGSocket()
 bool
 SGSocket::make_server_socket()
 {
-    sock.setBroadcast(is_broadcast);
     if (!sock.open( is_tcp ))
     {
         SG_LOG( SG_IO, SG_ALERT, 
                 "Error: socket() failed in make_server_socket()" );
 	return false;
     }
+
+    sock.setBroadcast(is_broadcast);
 
     if (sock.bind( hostname.c_str(), port ) < 0)
     {
