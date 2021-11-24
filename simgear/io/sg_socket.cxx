@@ -91,6 +91,7 @@ SGSocket::make_server_socket()
     }
 
     sock.setBroadcast(is_broadcast);
+    sock.setReusePort(is_broadcast);
 
     if (sock.bind( hostname.c_str(), port ) < 0)
     {

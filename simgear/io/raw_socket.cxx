@@ -517,6 +517,23 @@ void Socket::setBroadcast ( bool broadcast )
   }
 }
 
+void Socket::setReusePort( bool reusePort )
+{
+  assert ( handle != -1 ) ;
+#if !defined(_WIN32) && !defined(__CYGWIN__)
+  int result;
+  if ( reusePort ) {
+      int one = 1;
+      result = ::setsockopt( handle, SOL_SOCKET, SO_REUSEPORT, &one, sizeof(one) );
+  } else {
+      result = ::setsockopt( handle, SOL_SOCKET, SO_REUSEPORT, NULL, 0 );
+  }
+
+  if ( result < 0 ) {
+      throw sg_exception("Socket::setReusePort failed");
+  }
+#endif
+}
 
 int Socket::bind ( const char* host, int port )
 {

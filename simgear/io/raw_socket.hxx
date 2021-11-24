@@ -99,6 +99,7 @@ public:
 
   void setBlocking ( bool blocking ) ;
   void setBroadcast ( bool broadcast ) ;
+  void setReusePort ( bool reusePort ) ;
 
   static bool isNonBlockingError () ;
   static int errorNumber();
