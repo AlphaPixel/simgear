@@ -501,16 +501,12 @@ void Socket::setBroadcast ( bool broadcast )
 {
   assert ( handle != -1 ) ;
   int result;
-  if ( broadcast ) {
-      int one = 1;
+  int broadcast_enable = (broadcast ? 1 : 0);
 #if defined(_WIN32) || defined(__CYGWIN__)
-      result = ::setsockopt( handle, SOL_SOCKET, SO_BROADCAST, (char*)&one, sizeof(one) );
+  result = ::setsockopt( handle, SOL_SOCKET, SO_BROADCAST, (char*)&broadcast_enable, sizeof(broadcast_enable) );
 #else
-      result = ::setsockopt( handle, SOL_SOCKET, SO_BROADCAST, &one, sizeof(one) );
+  result = ::setsockopt( handle, SOL_SOCKET, SO_BROADCAST, &broadcast_enable, sizeof(broadcast_enable) );
 #endif
-  } else {
-      result = ::setsockopt( handle, SOL_SOCKET, SO_BROADCAST, NULL, 0 );
-  }
 
   if ( result < 0 ) {
       throw sg_exception("Socket::setBroadcast failed");
