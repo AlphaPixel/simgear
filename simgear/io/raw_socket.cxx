@@ -518,12 +518,8 @@ void Socket::setReusePort( bool reusePort )
   assert ( handle != -1 ) ;
 #if !defined(_WIN32) && !defined(__CYGWIN__)
   int result;
-  if ( reusePort ) {
-      int one = 1;
-      result = ::setsockopt( handle, SOL_SOCKET, SO_REUSEPORT, &one, sizeof(one) );
-  } else {
-      result = ::setsockopt( handle, SOL_SOCKET, SO_REUSEPORT, NULL, 0 );
-  }
+  int reuse_enable = (reusePort ? 1 : 0);
+  result = ::setsockopt( handle, SOL_SOCKET, SO_REUSEPORT, &reuse_enable, sizeof(reuse_enable) );
 
   if ( result < 0 ) {
       throw sg_exception("Socket::setReusePort failed");
